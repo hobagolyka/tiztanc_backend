@@ -15,4 +15,8 @@ router.use('/get/:type',
     getData()
 );
 
+router.use('/save',
+    getData()
+);
+
 module.exports = router;
