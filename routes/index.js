@@ -1,17 +1,18 @@
 var express = require('express');
+const cors = require('cors')
 var router = express.Router();
+var getData = require('../middleware/getData');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Tíztánc verseny szervező' });
-});
-/*
-router.get("/results", (req, res, next) => {
-  res.send("Eredmény tábla...");
+/* CORS - for localhost */
+
+/* GET users listing. */
+router.get('/', cors(), function(req, res, next) {
+  res.send("hello")
+
 });
 
-router.get("/form", (req, res, next) => {
-  res.send("A form az event létrehozásához.")
-});
-*/
+router.use('/get/:type',
+    getData()
+);
+
 module.exports = router;
