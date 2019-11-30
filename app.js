@@ -20,3 +20,6 @@ app.use('/users', usersRouter);
 app.use('/test', testRouter);
 
 module.exports = app;
+
+app.listen(3001);
+console.log("Started listening on 3001");

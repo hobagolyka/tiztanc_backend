@@ -1,8 +1,8 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host     : 'localhost:3306',
-    user     : 'admin',
+    host     : 'localhost',
+    user     : 'root',
     password : 'admin',
     database : 'dancedb'
 });

@@ -9,6 +9,8 @@
 .bin
 /bin
 
+app.js
+
 # testing
 /coverage
 
