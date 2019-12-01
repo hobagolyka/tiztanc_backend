@@ -19,7 +19,13 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/test', testRouter);
 
-module.exports = app;
+/**
+ * Let's creat the .tpl and .error on the res object
+ */
+app.use(function (req, res, next) {
+    res.tpl = {};
+    res.tpl.error = [];
+    return next();
+});
 
-app.listen(3001);
-console.log("Started listening on 3001");
+module.exports = app;

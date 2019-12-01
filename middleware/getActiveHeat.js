@@ -2,7 +2,7 @@ var connection = require('../config/config');
 var mysql = require('mysql');
 
 function dbconnect(req, callback, type, data) {
-    var heatQuery = 'SELECT * FROM '+ connection.config.database +'.Heat WHERE isActive = 1';
+    var heatQuery = 'SELECT * FROM Heat WHERE isActive = 1';
     connection.query(heatQuery, function(err,result){
         if (err) {throw err;}
         return callback(err, result);
@@ -12,15 +12,22 @@ function dbconnect(req, callback, type, data) {
 module.exports = function () {
 
     return function (req, res, next) {
-        console.log("Get active heat...");
-        var type = req.param('type');
+
+        var token = req.param('token');
+
         var bodyData = res.body;
-        dbconnect(req, function(err, result){
-            if (err) throw err;
-            else {
-                return result;
-            }
+
+        if(res.token === token)
+            dbconnect(req, function(err, result){
+                if (err) throw err;
+                else {
+
+                    res.send(result);
+                    return next();
+                }
+                return next();
+            }, bodyData);
+        else
             return next();
-        }, type, bodyData);
     };
 };

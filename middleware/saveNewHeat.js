@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var connection = require('../../config/config');
+var connection = require('../config/config');
 var path = require('path');
 var fs = require('fs');
 
@@ -19,8 +19,9 @@ function dbconnect(callback, data) {
 }
 
 module.exports = function () {
-    var data = req.body;
+
     return function (req, res, next) {
+        var data = req.body;
         dbconnect(function(err, results){
             if (err) {
                 res.msg = err;

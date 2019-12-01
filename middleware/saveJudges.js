@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var connection = require('../../config/config');
+var connection = require('../config/config');
 var path = require('path');
 var fs = require('fs');
 

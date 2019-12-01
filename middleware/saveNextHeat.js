@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var connection = require('../../config/config');
+var connection = require('../config/config');
 var path = require('path');
 var fs = require('fs');
 
@@ -24,8 +24,12 @@ module.exports = function () {
         var actualId = req.params.actual_heat_id;
 
         dbconnect(function(err, results){
-            if (err) {res.tpl.msg = err;}
-            else {res.tpl.msg = "ok";}
+            if (err) {
+                res.tpl.msg = err;
+            }
+            else {
+                console.log(results)
+            }
             return next();
         },data, actualId);
     };

@@ -79,81 +79,8 @@ module.exports = function () {
         console.log("Saving event data to the database...");
 
         var type = req.param('type');
-        //const bodyData = res.body;
-        const bodyData = { eventData:
-                { name: '2019 záróverseny',
-                    token: 78177,
-                    judges: 4,
-                    percent: 50,
-                    limit: 20,
-                    final: 6,
-                    date: "2019.12.11.",
-                    heats:
-                        { 'Kezdő Keringő': [[
-                                ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Koasdf SDedfg", "Oplsdf e Ildikó", "BME"]
-                            ]],
-                            'Kezdő Tangó': [[
-                                ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kovács Gábor", "Tóth Ildikó", "BME"]
-                            ]],
-                            'E osztályos Keringő': [[
-                                ["Kovács János", "Számai Janka", "SZIT"],
-                                ["Il Gábor", "Zsámbék Ilona", "ASD"]
-                            ]],
-                            'E osztályos Standard (TQ)': [
-                                [
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"]
-                                ],
-                                [
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                ],
-                                [
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                ]
-                            ]
-                        }
-                }
-        };
-
+        var bodyData = req.body;
+        console.log(req.body);
         var data = bodyData.eventData;
         var eventData = {
             eventName: data.name,

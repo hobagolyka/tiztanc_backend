@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `dancedb`.`Event` (
   PRIMARY KEY (`idEvent`))
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX `idEvent_UNIQUE` ON `dancedb`.`Event` (`idEvent` ASC) VISIBLE;
+CREATE UNIQUE INDEX `idEvent_UNIQUE` ON `dancedb`.`Event` (`idEvent` ASC);
 
 
 -- -----------------------------------------------------
@@ -73,11 +73,11 @@ CREATE TABLE IF NOT EXISTS `dancedb`.`Heat` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `pair_idx` ON `dancedb`.`Heat` (`pairId` ASC) VISIBLE;
+CREATE INDEX `pair_idx` ON `dancedb`.`Heat` (`pairId` ASC) ;
 
-CREATE INDEX `event_idx` ON `dancedb`.`Heat` (`eventId` ASC) VISIBLE;
+CREATE INDEX `event_idx` ON `dancedb`.`Heat` (`eventId` ASC) ;
 
-CREATE UNIQUE INDEX `idHeat_UNIQUE` ON `dancedb`.`Heat` (`idHeat` ASC) VISIBLE;
+CREATE UNIQUE INDEX `idHeat_UNIQUE` ON `dancedb`.`Heat` (`idHeat` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -123,13 +123,13 @@ CREATE TABLE IF NOT EXISTS `dancedb`.`Results` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `pair_idx` ON `dancedb`.`Results` (`pair_id` ASC) VISIBLE;
+CREATE INDEX `pair_idx` ON `dancedb`.`Results` (`pair_id` ASC) ;
 
-CREATE INDEX `event_idx` ON `dancedb`.`Results` (`eventId` ASC) VISIBLE;
+CREATE INDEX `event_idx` ON `dancedb`.`Results` (`eventId` ASC) ;
 
-CREATE INDEX `judges_idx` ON `dancedb`.`Results` (`judgeId` ASC) VISIBLE;
+CREATE INDEX `judges_idx` ON `dancedb`.`Results` (`judgeId` ASC) ;
 
-CREATE UNIQUE INDEX `idResults_UNIQUE` ON `dancedb`.`Results` (`idResults` ASC) VISIBLE;
+CREATE UNIQUE INDEX `idResults_UNIQUE` ON `dancedb`.`Results` (`idResults` ASC) ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
