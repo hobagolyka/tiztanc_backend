@@ -4,15 +4,16 @@ var mysql = require('mysql');
 var numsOfHeat = {};
 var currentDanceIndex = 0;
 var pairsInserted = 0;
+var roundIndex = 0;
 
-function insertHeat(eventId, danceTypes, firstPair, affectedPairs) {
+function insertHeat(eventId, danceTypes, firstPair, affectedPairs, roundIndex) {
     var heatQuery = 'INSERT INTO ' + connection.config.database + '.Heat (danceType, eventId, pairId, isActive, roundIndex) VALUES ?';
     var values = [];
     var isActive = 1;
 
     if(currentDanceIndex !== 0) {isActive = 0;}
     for (var j = 0; j < affectedPairs; j++) {
-        values.push([danceTypes[currentDanceIndex], eventId, (firstPair + j), isActive, currentDanceIndex + 1]);
+        values.push([danceTypes[currentDanceIndex], eventId, (firstPair + j), isActive, roundIndex]);
     }
 
     connection.query(heatQuery, [values], (err, result) => {
@@ -26,9 +27,9 @@ function insertPairs(eventId, heatData) {
     var pairQuery = "INSERT INTO " + connection.config.database + ".Pair (name1, name2, school) VALUES ?";
 
     for (var i = 0; i <danceTypes.length; i++) {
+        console.log(heatData[danceTypes[i]].length);
         numsOfHeat[danceTypes[i]] = heatData[danceTypes[i]].length;
     }
-    //console.log("Heats: "+JSON.stringify(numsOfHeat));
 
     for (var i = 0; i < danceTypes.length; i++) {
         var pairs = heatData[danceTypes[i]]; // tömbk tömbjének tömbje
@@ -38,8 +39,9 @@ function insertPairs(eventId, heatData) {
                 if (err) {throw err;}
                 else {
                     console.log("Pair inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
-                    insertHeat(eventId, danceTypes, result.insertId, result.affectedRows);
                     pairsInserted++;
+                    insertHeat(eventId, danceTypes, result.insertId, result.affectedRows, roundIndex++);
+
                     if (pairsInserted == numsOfHeat[danceTypes[currentDanceIndex]]) {
                         pairsInserted = 0;
                         currentDanceIndex++;
@@ -50,8 +52,12 @@ function insertPairs(eventId, heatData) {
     }
 }
 
-function dbconnect(callback, eventData, heatData) {
-
+function dbconnect(req, callback, eventData, heatData) {
+    currentDanceIndex = 0;
+    pairsInserted = 0;
+    numsOfHeat = {};
+    console.log(Object.keys(eventData));
+    console.log(Object.keys(heatData));
     console.log("Saving event...");
     connection.query('INSERT INTO ' + connection.config.database + '.Event'
     + '(name, judgeToken, judges, pairLimit, finalLimit, date, isClosed, percent) VALUES ('
@@ -79,11 +85,14 @@ function dbconnect(callback, eventData, heatData) {
 module.exports = function () {
 
     return function (req, res, next) {
+        currentDanceIndex = 0;
+        pairsInserted = 0;
+        numsOfHeat = {};
 
-        //var bodyData = req.body;
-
-        var bodyData = { eventData:
-                { name: '2019 záróverseny',
+        var bodyData = {
+            eventData:
+                {
+                    name: '2019 záróverseny',
                     token: 78177,
                     judges: 4,
                     percent: 50,
@@ -91,7 +100,8 @@ module.exports = function () {
                     date: "2019-12-11",
                     final: 6,
                     heats:
-                        { 'Kezdő Keringő': [[
+                        {
+                            'Kezdő Keringő': [[
                                 ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
                                 ["Koasdf SDedfg", "Oplsdf e Ildikó", "BME"],
                                 ["Masodik József", "Masodik Tamara", "BME"],
@@ -244,8 +254,8 @@ module.exports = function () {
             startDate: data.date,
             isClosed: 0
         };
-
-        dbconnect(function(err, result){
+        console.log(Object.keys(data.heats));
+        dbconnect(req,function(err, result){
             if (err) throw err;
             else {
                 console.log(result);
