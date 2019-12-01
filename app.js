@@ -29,3 +29,5 @@ app.use(function (req, res, next) {
 });
 
 module.exports = app;
+
+app.listen(3001);

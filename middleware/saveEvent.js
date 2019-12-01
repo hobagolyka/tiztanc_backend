@@ -36,7 +36,8 @@ function insertPairs(eventId, heatData, callback) {
             // pairs[pairInd]: tömbök tömbje
             connection.query(pairQuery, [pairs[pairInd]], function (err, result)  {
                 if (err) {throw err;}
-                else {console.log("Pair inserted. Id: " + result.insertId + ". Affected: "+result.affectedRows);
+                else {
+                    console.log("Pair inserted. Id: " + result.insertId + ". Affected: "+result.affectedRows);
                     insertHeat(eventId, danceTypes, result.insertId, result.affectedRows);
                     pairsInserted++;
                     if (pairsInserted == numsOfHeat[danceTypes[currentDanceIndex]]) {
