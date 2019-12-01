@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 
 function dbconnect(callback, data, actualId) {
-    var upupdateOldHeat = 'UPDATE ' + connection.config.database + '.Heat SET isActive = 0 WHERE idHeat = actualId';
+    var upupdateOldHeat = 'UPDATE ' + connection.config.database + '.Heat SET isActive = 0 WHERE idHeat = ' + actualId;
     var upupdateNewHeat = 'UPDATE ' + connection.config.database + '.Heat SET isActive = 1 WHERE idHeat = ' + (actualId + 1);
 
     connection.query(upupdateOldHeat,
