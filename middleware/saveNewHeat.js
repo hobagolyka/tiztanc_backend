@@ -19,29 +19,16 @@ function dbconnect(callback, data) {
 }
 
 module.exports = function () {
-
+    var data = req.body;
     return function (req, res, next) {
-
-        var p = req.body;
-
-        if(p.etel == ''){
-            res.tpl.msg = "Nem adtad meg az étel nevét.";
-            return next();
-        }
-
-        if(p.ar == ''){
-            res.tpl.msg = "Nem adtál meg árat.";
-            return next();
-        }
-
         dbconnect(function(err, results){
             if (err) {
-                res.tpl.msg = err;
+                res.msg = err;
             }
             else {
-                res.tpl.msg = "ok";
+                res.msg = "ok";
             }
             return next();
-        },p);
+        }, data);
     };
 };

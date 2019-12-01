@@ -11,8 +11,6 @@ var getActiveHeat = require('../middleware/getActiveHeat');
 var getHistory = require('../middleware/getHistory');
 var getResults = require('../middleware/getResults');
 
-
-
 router.get('/', cors(), function(req, res, next) {
   res.send("hello");
 });
@@ -37,7 +35,7 @@ router.use('/save_judges/:eventId', cors(),
     saveJudges()
 );
 
-router.use('/save_result/event_id/heat/heat_id',
+router.use('/save_result/:event_id/heat/:heat_id',
     saveResult()
 );
 

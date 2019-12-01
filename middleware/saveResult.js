@@ -3,16 +3,10 @@ var connection = require('../../config/config');
 var path = require('path');
 var fs = require('fs');
 
-function dbconnect(callback, data) {
-    connection.query('INSERT INTO food (kaja, kaja_EN, kaja_D, leiras, leiras_EN, leiras_D, ar,type) VALUES(' +
-        mysql.escape(data.etel) + ',' +
-        mysql.escape(data.etel_EN) + ',' +
-        mysql.escape(data.etel_D) + ',' +
-        mysql.escape(data.leiras) + ',' +
-        mysql.escape(data.leiras_EN) + ',' +
-        mysql.escape(data.leiras_D) + ',' +
-        mysql.escape(data.ar) + ',' +
-        mysql.escape(data.type) + ')',
+function dbconnect(callback, data, eventId, heatId) {
+    var resultQuery = 'INSERT INTO ' + connection.config.database +'.Result (point, round_id, pair_id, danceType, judgeId, eventId) VALUES ';
+
+    connection.query(resultQuery,
         function(err,rows){
             return callback(err, rows);
         });
@@ -22,26 +16,17 @@ module.exports = function () {
 
     return function (req, res, next) {
 
-        var p = req.body;
+        var data = req.body;
+        var evenId = req.params.event_id;
+        var heatId = req.params.heat_id;
 
-        if(p.etel == ''){
-            res.tpl.msg = "Nem adtad meg az étel nevét.";
-            return next();
-        }
-
-        if(p.ar == ''){
-            res.tpl.msg = "Nem adtál meg árat.";
-            return next();
-        }
-
-        dbconnect(function(err, results){
-            if (err) {
-                res.tpl.msg = err;
-            }
+        dbconnect(function(err, result){
+            if (err) {res.msg = err;}
             else {
-                res.tpl.msg = "ok";
+                res.msg = "ok";
+                res.result = result;
             }
             return next();
-        },p);
+        }, data, eventId, heatId);
     };
 };

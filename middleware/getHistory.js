@@ -10,9 +10,7 @@ function dbconnect(req, callback, type, data) {
         'WHERE event.isClosed = 0';
 
     connection.query(historyQuery, function(err,row){
-        if (err) {
-            throw err;
-        }
+        if (err) {throw err;}
         return callback(err, row);
     });
 }
@@ -20,8 +18,6 @@ function dbconnect(req, callback, type, data) {
 module.exports = function () {
 
     return function (req, res, next) {
-        console.log("get data middleware");
-
         var type = req.param('type');
         var data = res.body;
         dbconnect(req, function(err, result){
@@ -29,7 +25,6 @@ module.exports = function () {
             else {
                 return result;
             }
-            return next();
         }, type, data);
     };
 };
