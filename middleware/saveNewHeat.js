@@ -1,11 +1,33 @@
 var mysql = require('mysql');
 var connection = require('../config/config');
 
-function dbconnect(callback, data) {
-    connection.query('INSERT INTO heat () VALUES()',
+function insertNewHeat(callback, data, eventId, lastRoundInd) {
+    var values = [];
+    for(var i = 0; i<data.length; i++) {
+        values.push([
+                data[i][2], // danceType
+                eventId, // eventId
+                data[i][0], // pairId
+                0, // isActive,
+                lastRoundInd + (i+1), //roundIndex
+        ]);
+    }
+
+    connection.query('INSERT INTO dancedb.heat (danceType, eventId, pairId, isActive, roundIndex) VALUES ?', [values],
         function(err,rows){
             return callback(err, rows);
         });
+}
+
+function dbconnect(callback, data, lastRoundInd) {
+    var query = 'SELECT idEvent FROM dancedb.Event WHERE isClosed = 0';
+
+    connection.query(query, (err, result) => {
+        if(err){throw err;}
+        else {
+            insertNewHeat(callback, data, result[0].idEvent, lastRoundInd);
+        }
+    });
 }
 
 module.exports = function () {
@@ -19,7 +41,7 @@ module.exports = function () {
             [ 13, 1, '\'Kezdő Keringő\'' ],
             [ 17, 1, '\'Kezdő Keringő\'' ],
             [ 2, 1, '\'Kezdő Keringő\'' ] ];
-
+        var lastRoundInd = req.params.roundIndex;
         //var pairsReal = res.newHeat;
 
         dbconnect(function(err, results){
@@ -30,6 +52,6 @@ module.exports = function () {
                 console.log(results);
             }
             return next();
-        }, pairsTest);
+        }, pairsTest, lastRoundInd);
     };
 };
