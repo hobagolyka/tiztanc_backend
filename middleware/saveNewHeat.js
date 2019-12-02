@@ -9,7 +9,7 @@ function insertNewHeat(callback, data, eventId, lastRoundInd) {
                 eventId, // eventId
                 data[i][0], // pairId
                 0, // isActive,
-                lastRoundInd + (i+1), //roundIndex
+                lastRoundInd + 1, //roundIndex
         ]);
     }
 
