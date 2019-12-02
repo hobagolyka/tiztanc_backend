@@ -71,8 +71,4 @@ router.use('/get_next_heat/:roundIndex', cors(),
     setNewActiveHeat(),
 );
 
-router.get('/get_results', cors(),
-    getResults()
-);
-
 module.exports = router;
