@@ -11,15 +11,14 @@ function insertHeat(eventId, danceTypes, firstPair, affectedPairs, roundIndex) {
     var values = [];
     var isActive = 1;
 
-    if(currentDanceIndex !== 0) {isActive = 0;}
+    if(roundIndex !== 0) {isActive = 0;}
     for (var j = 0; j < affectedPairs; j++) {
-
         values.push([danceTypes[currentDanceIndex], eventId, (firstPair + j), isActive, roundIndex]);
     }
 
     connection.query(heatQuery, [values], (err, result) => {
         if(err) {throw err;}
-        //console.log("Heat inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
+        console.log("Heat inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
     });
 }
 
@@ -28,7 +27,6 @@ function insertPairs(eventId, heatData) {
     var pairQuery = "INSERT INTO " + connection.config.database + ".Pair (name1, name2, school) VALUES ?";
 
     for (var i = 0; i <danceTypes.length; i++) {
-        //console.log(heatData[danceTypes[i]].length);
         numsOfHeat[danceTypes[i]] = heatData[danceTypes[i]].length;
     }
 
@@ -114,7 +112,6 @@ module.exports = function () {
                 //console.log(result);
                 return next();
             }
-            return next();
         }, eventData, data.heats);
     };
 };
