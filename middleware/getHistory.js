@@ -1,7 +1,7 @@
 var connection = require('../config/config');
 var mysql = require('mysql');
 
-function dbconnect(req, callback, type, data) {
+function dbconnect(callback) {
     var historyQuery = 'SELECT * FROM '+ connection.config.database +'.Event as event INNER JOIN ' +
         connection.config.database + '.Heat as heat ON heat.eventId = event.IdEvent ' +
         'INNER JOIN ' + connection.config.database + '.Result as result ON result.eventId = event.IdEvent ' +
@@ -18,13 +18,13 @@ function dbconnect(req, callback, type, data) {
 module.exports = function () {
 
     return function (req, res, next) {
-        var type = req.param('type');
-        var data = res.body;
-        dbconnect(req, function(err, result){
+
+
+        dbconnect(function(err, result){
             if (err) throw err;
             else {
-                return result;
+                return next();
             }
-        }, type, data);
+        });
     };
 };

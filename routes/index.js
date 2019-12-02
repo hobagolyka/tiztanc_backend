@@ -11,6 +11,7 @@ var getEventToken = require('../middleware/getEventToken');
 var getActiveHeat = require('../middleware/getActiveHeat');
 var getHistory = require('../middleware/getHistory');
 var getResults = require('../middleware/getResults');
+var actualEvent = require('../middleware/actualEvent');
 
 router.get('/', cors(), function(req, res, next) {
   res.send("hello");
@@ -29,13 +30,16 @@ router.get('/get_event', cors(),
     getEvent()
 );
 
-
 router.get('/get_results', cors(),
   getResults()
 );
 
 router.use('/save_event', cors(),
     saveEvent()
+);
+
+router.use('/get_actual_event', cors(),
+    actualEvent()
 );
 
 router.use('/save_judges/:eventId', cors(),

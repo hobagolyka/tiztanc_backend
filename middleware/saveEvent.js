@@ -12,7 +12,7 @@ function insertHeat(eventId, danceTypes, firstPair, affectedPairs) {
 
     if(currentDanceIndex !== 0) {isActive = 0;}
     for (var j = 0; j < affectedPairs; j++) {
-        values.push([danceTypes[currentDanceIndex], eventId, (firstPair + j), isActive, currentDanceIndex + 1]);
+        values.push([danceTypes[currentDanceIndex], eventId, (firstPair + j), isActive, pairsInserted]);
     }
 
     connection.query(heatQuery, [values], (err, result) => {
