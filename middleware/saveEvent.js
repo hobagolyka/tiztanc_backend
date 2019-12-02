@@ -11,7 +11,7 @@ function insertHeat(eventId, danceTypes, firstPair, affectedPairs, roundIndex) {
     var values = [];
     var isActive = 1;
 
-    if(currentDanceIndex !== 0) {isActive = 0;}
+    if(roundIndex !== 0) {isActive = 0;}
     for (var j = 0; j < affectedPairs; j++) {
         values.push([danceTypes[currentDanceIndex], eventId, (firstPair + j), isActive, roundIndex]);
     }
@@ -27,7 +27,6 @@ function insertPairs(eventId, heatData) {
     var pairQuery = "INSERT INTO " + connection.config.database + ".Pair (name1, name2, school) VALUES ?";
 
     for (var i = 0; i <danceTypes.length; i++) {
-        console.log(heatData[danceTypes[i]].length);
         numsOfHeat[danceTypes[i]] = heatData[danceTypes[i]].length;
     }
 
@@ -52,7 +51,7 @@ function insertPairs(eventId, heatData) {
     }
 }
 
-function dbconnect(req, callback, eventData, heatData) {
+function dbconnect(callback, eventData, heatData) {
     currentDanceIndex = 0;
     pairsInserted = 0;
     numsOfHeat = {};
@@ -101,7 +100,8 @@ module.exports = function () {
                     final: 6,
                     heats:
                         {
-                            'Kezdő Keringő': [[
+                            'Kezdő Keringő': [
+                                [
                                 ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
                                 ["Koasdf SDedfg", "Oplsdf e Ildikó", "BME"],
                                 ["Masodik József", "Masodik Tamara", "BME"],
@@ -137,7 +137,8 @@ module.exports = function () {
                                 ["Masodik József", "Masodik Tamara", "BME"],
                                 ["Masodik József", "Masodik Tamara", "BME"],
                                 ["Masodik József", "Masodik Tamara", "BME"]
-                            ]],
+                            ]
+                            ],
                             'Kezdő Tangó': [[
                                 ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
                                 ["Kovács Gábor", "Tóth Ildikó", "BME"],
@@ -164,7 +165,8 @@ module.exports = function () {
                                 ["Masodik József", "Masodik Tamara", "BME"],
                                 ["Masodik József", "Masodik Tamara", "BME"]
                             ]],
-                            'E osztályos Keringő': [[
+                            'E osztályos Keringő': [
+                                [
                                 ["Kovács János", "Számai Janka", "SZIT"],
                                 ["Il Gábor", "Zsámbék Ilona", "ASD"],
                                 ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
@@ -254,14 +256,12 @@ module.exports = function () {
             startDate: data.date,
             isClosed: 0
         };
-        console.log(Object.keys(data.heats));
-        dbconnect(req,function(err, result){
+        dbconnect(function(err, result){
             if (err) throw err;
             else {
                 console.log(result);
                 return next();
             }
-            return next();
         }, eventData, data.heats);
     };
 };
