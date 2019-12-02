@@ -1,18 +1,8 @@
 var mysql = require('mysql');
 var connection = require('../config/config');
-var path = require('path');
-var fs = require('fs');
 
 function dbconnect(callback, data) {
-    connection.query('INSERT INTO food (kaja, kaja_EN, kaja_D, leiras, leiras_EN, leiras_D, ar,type) VALUES(' +
-        mysql.escape(data.etel) + ',' +
-        mysql.escape(data.etel_EN) + ',' +
-        mysql.escape(data.etel_D) + ',' +
-        mysql.escape(data.leiras) + ',' +
-        mysql.escape(data.leiras_EN) + ',' +
-        mysql.escape(data.leiras_D) + ',' +
-        mysql.escape(data.ar) + ',' +
-        mysql.escape(data.type) + ')',
+    connection.query('INSERT INTO heat () VALUES()',
         function(err,rows){
             return callback(err, rows);
         });
@@ -21,15 +11,25 @@ function dbconnect(callback, data) {
 module.exports = function () {
 
     return function (req, res, next) {
-        var data = req.body;
+
+        /* params: pair_id, beérkezett szavazat, dancetype -> az itteni példában 6 pár jutott tovább, az új heatbe ők kerülnek */
+        var pairsTest = [ [ 1, 2, '\'Kezdő Keringő\'' ],
+            [ 12, 2, '\'Kezdő Keringő\'' ],
+            [ 15, 1, '\'Kezdő Keringő\'' ],
+            [ 13, 1, '\'Kezdő Keringő\'' ],
+            [ 17, 1, '\'Kezdő Keringő\'' ],
+            [ 2, 1, '\'Kezdő Keringő\'' ] ];
+
+        //var pairsReal = res.newHeat;
+
         dbconnect(function(err, results){
             if (err) {
-                res.msg = err;
+                console.log(err);
             }
             else {
-                res.msg = "ok";
+                console.log(results);
             }
             return next();
-        }, data);
+        }, pairsTest);
     };
 };

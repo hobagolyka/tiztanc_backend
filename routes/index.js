@@ -41,11 +41,14 @@ router.use('/get_actual_event', cors(),
 router.use('/save_next_heat/:roundIndex', cors(),
     saveJudge(),
     getJudge(),
-    saveResult(),
-    //generateNewHeat(),
+    getEvent(),
+    saveResult()
 );
 
 router.use('/get_next_heat/:roundIndex', cors(),
+    getEvent(),
+    generateNewHeat(),
+    saveNewHeat()
     //setOldActiveHeat(),
     //setNewActiveHeat(),
 );
