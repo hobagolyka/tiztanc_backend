@@ -17,14 +17,13 @@ module.exports = function () {
 
         setNewActive(function(err, results){
             if (err) {
-                res.tpl.msg = err;
+                console.log(err);
             }
             else {
                 console.log(results)
             }
             return next();
-        });
+        }, actualId);
 
-        return next();
     };
 };

@@ -19,7 +19,7 @@ module.exports = function () {
             dbconnect(function(err, result){
                 if (err) throw err;
                 else {
-                    res.send(result);
+                    res.activeHeat = result;
                 }
                 return next();
             });

@@ -1,10 +1,9 @@
 var mysql = require('mysql');
 var connection = require('../config/config');
 
-function setOldActive(callback, actualId) {
-    var upupdateOldHeat = 'UPDATE heat SET isActive = 0 WHERE roundIndex = ' + actualId;
+function getJudges(callback, judgeName) {
 
-    connection.query(upupdateOldHeat,
+    connection.query('SELECT * FROM Judge',
         function(err,rows){
             return callback(err, rows);
         });
@@ -12,17 +11,14 @@ function setOldActive(callback, actualId) {
 
 module.exports = function () {
     return function (req, res, next) {
-
-        var actualId = req.params.roundIndex;
-
-        setOldActive(function(err, results){
+        getJudges(function(err, result){
             if (err) {
                 console.log(err);
             }
             else {
-                console.log(results)
+                res.send(result);
             }
             return next();
-        }, actualId);
+        });
     };
 };

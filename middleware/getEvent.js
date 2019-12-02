@@ -18,9 +18,7 @@ module.exports = function () {
         dbconnect(req, function(err, result){
             if (err) throw err;
             else {
-                res.event = result[0];
                 res.send(result);
-                return next();
             }
             return next();
         });

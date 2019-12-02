@@ -35,6 +35,7 @@ module.exports = function () {
         var bodyData = req.body.values;
         var data = bodyData;
         var eventId = data.idEvent;
+        console.log(data);
 
         dbconnect(function(err, result){
             if (err) {

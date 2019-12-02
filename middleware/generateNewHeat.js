@@ -17,6 +17,7 @@ module.exports = function () {
         var roundIndex = req.params.roundIndex;
         var eventPercent = res.event.percent;
         var eventFinal = res.event.finalLimit;
+        var activeHeat = res.activeHeat;
 
         dbconnect(function(err, result){
             if (err) throw err;
@@ -44,13 +45,18 @@ module.exports = function () {
 
                 selected = [];
 
-                var limit = Math.ceil(sortable.length/100*eventPercent);
+                var limit = Math.ceil(activeHeat.length/100*eventPercent);
 
-                for(var i = sortable.length-1; i > limit-1; i--){
-                    selected.push(sortable[i]);
+                if(sortable.length > limit) {
+                    for (var i = sortable.length - 1; i > limit - 1; i--) {
+                        selected.push(sortable[i]);
+                    }
+
+                    res.newHeat = selected;
                 }
-
-                res.newHeat = selected;
+                else {
+                    res.newHeat = sortable;
+                }
             }
             return next();
         }, roundIndex);
