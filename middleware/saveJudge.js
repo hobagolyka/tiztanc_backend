@@ -13,7 +13,7 @@ module.exports = function () {
     return function (req, res, next) {
 
         var data = req.body.values;
-        var judgeName = data.name;
+        var judgeName = data.name || "";
 
         dbconnect(function(err, results){
             if (err) {
@@ -21,6 +21,7 @@ module.exports = function () {
             }
             else {
                 res.judgeId = results.insertId;
+                res.send('ok');
             }
             return next();
         }, judgeName);
