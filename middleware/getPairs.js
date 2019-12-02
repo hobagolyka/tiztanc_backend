@@ -3,7 +3,7 @@ var mysql = require('mysql');
 
 function dbconnect(req, callback, type, data) {
 
-    connection.query('SELECT * FROM dancedb.heat as heat INNER JOIN dancedb.pair as pair ON pair.idPair = heat.pairId', function(err,row){
+    connection.query("SELECT * FROM pair", function(err,row){
         if (err) {
             throw err;
         }
@@ -18,9 +18,7 @@ module.exports = function () {
         dbconnect(req, function(err, result){
             if (err) throw err;
             else {
-                //console.log(result);
                 res.send(result);
-                return next();
             }
             return next();
         });

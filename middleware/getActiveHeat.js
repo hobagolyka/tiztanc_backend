@@ -20,7 +20,6 @@ module.exports = function () {
                 if (err) throw err;
                 else {
                     res.send(result);
-
                 }
                 return next();
             });

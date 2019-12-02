@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var connection = require('../config/config');
 
 function setNewActive(callback, actualId) {
-    var upupdateNewHeat = 'UPDATE ' + connection.config.database + '.Heat SET isActive = 1 WHERE roundIndex = ' + (actualId + 1);
-
+    var upupdateNewHeat = 'UPDATE ' + connection.config.database + '.Heat SET isActive = 1 WHERE roundIndex = ' + (parseInt(actualId) + 1).toString();
+console.log(upupdateNewHeat);
     connection.query(upupdateNewHeat,
         function(err,rows){
             return callback(err, rows);
@@ -20,7 +20,7 @@ module.exports = function () {
                 console.log(err);
             }
             else {
-                console.log(results)
+                //console.log(results)
             }
             return next();
         }, actualId);

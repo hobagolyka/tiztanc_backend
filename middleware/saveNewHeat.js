@@ -42,7 +42,7 @@ module.exports = function () {
                 console.log(err);
             }
             else {
-                console.log(results);
+                //console.log(results);
             }
             return next();
         }, pairsReal, lastRoundInd);
