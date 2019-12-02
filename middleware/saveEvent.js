@@ -19,7 +19,7 @@ function insertHeat(eventId, danceTypes, firstPair, affectedPairs, roundIndex) {
 
     connection.query(heatQuery, [values], (err, result) => {
         if(err) {throw err;}
-        console.log("Heat inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
+        //console.log("Heat inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
     });
 }
 
@@ -28,18 +28,19 @@ function insertPairs(eventId, heatData) {
     var pairQuery = "INSERT INTO " + connection.config.database + ".Pair (name1, name2, school) VALUES ?";
 
     for (var i = 0; i <danceTypes.length; i++) {
-        console.log(heatData[danceTypes[i]].length);
+        //console.log(heatData[danceTypes[i]].length);
         numsOfHeat[danceTypes[i]] = heatData[danceTypes[i]].length;
     }
 
     for (var i = 0; i < danceTypes.length; i++) {
         var pairs = heatData[danceTypes[i]]; // tömbk tömbjének tömbje
+
         for (var pairInd = 0; pairInd < pairs.length; pairInd++) {
             // pairs[pairInd]: tömbök tömbje
             connection.query(pairQuery, [pairs[pairInd]], function (err, result)  {
                 if (err) {throw err;}
                 else {
-                    console.log("Pair inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
+                    //console.log("Pair inserted. Id: " + result.insertId + ". Affected: " + result.affectedRows);
                     pairsInserted++;
                     insertHeat(eventId, danceTypes, result.insertId, result.affectedRows, roundIndex++);
 
@@ -53,13 +54,14 @@ function insertPairs(eventId, heatData) {
     }
 }
 
-function dbconnect(req, callback, eventData, heatData) {
+function dbconnect(callback, eventData, heatData) {
     currentDanceIndex = 0;
     pairsInserted = 0;
     numsOfHeat = {};
-    console.log(Object.keys(eventData));
-    console.log(Object.keys(heatData));
-    console.log("Saving event...");
+    //console.log(Object.keys(eventData));
+    //console.log(Object.keys(heatData));
+
+    //console.log("Saving event...");
     connection.query('INSERT INTO ' + connection.config.database + '.Event'
     + '(name, judgeToken, judges, pairLimit, finalLimit, date, isClosed, percent) VALUES ('
         + mysql.escape(eventData.eventName) + ', '
@@ -74,10 +76,10 @@ function dbconnect(req, callback, eventData, heatData) {
         if (err) {
             throw err;
         } else {
-            console.log("Event saved with id: " + result.insertId);
-            console.log("Affected row(s): " + result.affectedRows);
+            //console.log("Event saved with id: " + result.insertId);
+            //console.log("Affected row(s): " + result.affectedRows);
 
-            insertPairs(result.insertId, heatData, callback);
+            insertPairs(result.insertId, heatData);
             return callback(err, result);
         }
     });
@@ -90,159 +92,7 @@ module.exports = function () {
         pairsInserted = 0;
         numsOfHeat = {};
 
-        var bodyData = {
-            eventData:
-                {
-                    name: '2019 záróverseny',
-                    token: 78177,
-                    judges: 4,
-                    percent: 50,
-                    limit: 20,
-                    date: "2019-12-11",
-                    final: 6,
-                    heats:
-                        {
-                            'Kezdő Keringő': [[
-                                ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Koasdf SDedfg", "Oplsdf e Ildikó", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"]
-                            ]],
-                            'Kezdő Tangó': [[
-                                ["Kovács Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kovács Gábor", "Tóth Ildikó", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"],
-                                ["Masodik József", "Masodik Tamara", "BME"]
-                            ]],
-                            'E osztályos Keringő': [[
-                                ["Kovács János", "Számai Janka", "SZIT"],
-                                ["Il Gábor", "Zsámbék Ilona", "ASD"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"]
-                            ]
-                            ],
-                            'E osztályos Standard (TQ)': [
-                                [
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"],
-                                    ["Kov‡cs Gábor", "Tóth Ildikó", "ELTE"]
-                                ],
-                                [
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                    ["Masodik József", "Masodik Tamara", "BME"],
-                                ],
-                                [
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                    ["Harmadik József", "Harmadik Tamara", "BME"],
-                                ]
-                            ]
-                        }
-                }
-        };
-
+        var bodyData = req.body;
         var data = bodyData.eventData;
 
         var eventData = {
@@ -255,11 +105,13 @@ module.exports = function () {
             startDate: data.date,
             isClosed: 0
         };
-        console.log(Object.keys(data.heats));
-        dbconnect(req,function(err, result){
+
+        //console.log(Object.keys(data.heats));
+
+        dbconnect(function(err, result){
             if (err) throw err;
             else {
-                console.log(result);
+                //console.log(result);
                 return next();
             }
             return next();
