@@ -8,6 +8,7 @@ var setOldActiveHeat = require('../middleware/setOldActiveHeat');
 var saveResult = require('../middleware/saveResult');
 var saveJudges = require('../middleware/saveJudges');
 var saveJudge = require('../middleware/saveJudge');
+var getJudge = require('../middleware/getJudge');
 var getEvent = require('../middleware/getEvent');
 var getEventToken = require('../middleware/getEventToken');
 var getActiveHeat = require('../middleware/getActiveHeat');
@@ -39,6 +40,7 @@ router.use('/get_actual_event', cors(),
 
 router.use('/save_next_heat/:roundIndex', cors(),
     saveJudge(),
+    getJudge(),
     saveResult(),
     //generateNewHeat(),
 );

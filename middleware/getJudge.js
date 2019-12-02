@@ -1,14 +1,6 @@
 var mysql = require('mysql');
 var connection = require('../config/config');
 
-function dbconnect(callback, judgeName) {
-
-    connection.query('INSERT INTO Judge SET judge_name = ' + mysql.escape(judgeName),
-        function(err,rows){
-            return callback(err, rows);
-        });
-}
-
 function getJudgeId(callback, judgeName) {
 
     connection.query('SELECT idJudge FROM Judge WHERE judge_name = ' + mysql.escape(judgeName),
@@ -23,13 +15,12 @@ module.exports = function () {
         var data = req.body.values;
         var judgeName = data.name || "";
 
-        dbconnect(function(err, results){
+        getJudgeId(function(err, result){
             if (err) {
                 console.log(err);
             }
             else {
-                //res.judgeId = results.insertId;
-                res.send('ok');
+                res.judgeId = result[0].idJudge;
             }
             return next();
         }, judgeName);
