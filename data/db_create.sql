@@ -3,11 +3,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Schema dancedb
--- -----------------------------------------------------
-
 -- -----------------------------------------------------
 -- Schema dancedb
 -- -----------------------------------------------------
@@ -80,7 +75,6 @@ CREATE INDEX `event_idx` ON `dancedb`.`Heat` (`eventId` ASC) VISIBLE;
 
 CREATE UNIQUE INDEX `idHeat_UNIQUE` ON `dancedb`.`Heat` (`idHeat` ASC) VISIBLE;
 
-
 -- -----------------------------------------------------
 -- Table `dancedb`.`Judge`
 -- -----------------------------------------------------
@@ -88,7 +82,7 @@ DROP TABLE IF EXISTS `dancedb`.`Judge` ;
 
 CREATE TABLE IF NOT EXISTS `dancedb`.`Judge` (
   `idJudge` INT NOT NULL AUTO_INCREMENT,
-  `judge_name` VARCHAR(12) NOT NULL,
+  `judge_name` VARCHAR(130) UNIQUE,
   PRIMARY KEY (`idJudge`))
 ENGINE = InnoDB;
 
@@ -100,8 +94,7 @@ DROP TABLE IF EXISTS `dancedb`.`Results` ;
 
 CREATE TABLE IF NOT EXISTS `dancedb`.`Results` (
   `idResults` INT NOT NULL AUTO_INCREMENT,
-  `point` INT NULL,
-  `round_id` VARCHAR(12) NULL,
+  `round_id` VARCHAR(45) NULL,
   `pair_id` INT NOT NULL,
   `dancetype` VARCHAR(45) NULL,
   `judgeId` INT NOT NULL,
