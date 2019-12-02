@@ -34,15 +34,8 @@ module.exports = function () {
 
     return function (req, res, next) {
 
-        /* params: pair_id, beérkezett szavazat, dancetype -> az itteni példában 6 pár jutott tovább, az új heatbe ők kerülnek */
-        var pairsTest = [ [ 1, 2, '\'Kezdő Keringő\'' ],
-            [ 12, 2, '\'Kezdő Keringő\'' ],
-            [ 15, 1, '\'Kezdő Keringő\'' ],
-            [ 13, 1, '\'Kezdő Keringő\'' ],
-            [ 17, 1, '\'Kezdő Keringő\'' ],
-            [ 2, 1, '\'Kezdő Keringő\'' ] ];
         var lastRoundInd = req.params.roundIndex;
-        //var pairsReal = res.newHeat;
+        var pairsReal = res.newHeat;
 
         dbconnect(function(err, results){
             if (err) {
@@ -52,6 +45,6 @@ module.exports = function () {
                 console.log(results);
             }
             return next();
-        }, pairsTest, lastRoundInd);
+        }, pairsReal, lastRoundInd);
     };
 };

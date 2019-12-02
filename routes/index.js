@@ -61,9 +61,9 @@ router.use('/get_next_heat/:roundIndex', cors(),
     getActiveHeatNext(),
     getEventNext(),
     generateNewHeat(),
-    saveNewHeat()
-    //setOldActiveHeat(),
-    //setNewActiveHeat(),
+    saveNewHeat(),
+    setOldActiveHeat(),
+    setNewActiveHeat(),
 );
 
 router.get('/get_results', cors(),
