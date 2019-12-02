@@ -1,10 +1,8 @@
 var mysql = require('mysql');
 var connection = require('../config/config');
-var path = require('path');
-var fs = require('fs');
 
-function dbconnect(callback, data, eventId, heatId) {
-    var resultQuery = 'INSERT INTO ' + connection.config.database +'.Result (point, round_id, pair_id, danceType, judgeId, eventId) VALUES ';
+function dbconnect(callback, data) {
+    var resultQuery = 'INSERT INTO ' + connection.config.database +'.Result (point, round_id, pair_id, danceType, judgeId, eventId) VALUES()';
 
     connection.query(resultQuery,
         function(err,rows){
@@ -16,17 +14,30 @@ module.exports = function () {
 
     return function (req, res, next) {
 
-        var data = req.body;
-        var evenId = req.params.event_id;
-        var heatId = req.params.heat_id;
+        var roundIndex = req.params,roundIndex;
+
+        //var bodyData = req.body;
+
+        /* Zsűri Ilonka 1-es, 2-es, 4-es idjű párokra szavazott az 1-es idjű eventen, a 34-en roundindexű heaten */
+        var testBody = { values: { '1': true,
+                '2': true,
+                '4': true,
+                name: 'Zsűri Ilonka',
+                idEvent: 1,
+                roundIndex: 34
+            }
+        }
+
+        var data = testBody.values;
 
         dbconnect(function(err, result){
-            if (err) {res.msg = err;}
+            if (err) {
+                console.log(err);
+            }
             else {
-                res.msg = "ok";
-                res.result = result;
+                console.log(result);
             }
             return next();
-        }, data, eventId, heatId);
+        }, data);
     };
 };
