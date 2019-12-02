@@ -20,7 +20,7 @@ module.exports = function () {
                 console.log(err);
             }
             else {
-                console.log(results);
+                res.judgeId = results.insertId;
             }
             return next();
         }, judgeName);

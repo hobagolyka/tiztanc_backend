@@ -39,7 +39,7 @@ router.use('/get_actual_event', cors(),
 
 router.use('/save_next_heat/:roundIndex', cors(),
     saveJudge(),
-    //saveResult(),
+    saveResult(),
     //generateNewHeat(),
 );
 

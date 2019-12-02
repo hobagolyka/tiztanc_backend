@@ -15,6 +15,7 @@ module.exports = function () {
     return function (req, res, next) {
 
         var roundIndex = req.params,roundIndex;
+        var judgeId = res.judgeId;
 
         //var bodyData = req.body;
 
@@ -29,7 +30,7 @@ module.exports = function () {
         }
 
         var data = testBody.values;
-
+/*
         dbconnect(function(err, result){
             if (err) {
                 console.log(err);
@@ -39,5 +40,6 @@ module.exports = function () {
             }
             return next();
         }, data);
+        */
     };
 };
